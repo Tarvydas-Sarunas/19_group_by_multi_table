@@ -8,10 +8,19 @@ commentsRoutes.get('/post/:id', async (req, res) => {
   const sql = 'SELECT * FROM `post_comments` WHERE post_id=?;';
   const [rows, error] = await dbQueryWithData(sql, [postId]);
   if (error) {
+    console.log('error ===', error);
     res.status(500).json({ error: 'Internal server error' });
     return;
   }
-  res.json(rows);
+  if (rows.length > 0) {
+    res.json(rows);
+    return;
+  }
+  if (rows.length === 0) {
+    res.status(400).json({ msg: 'No comments found' });
+    return;
+  }
+  res.status(400).json(rows);
 });
 
 // post /api/comments/post/1 - sukurs nauja commentara po pirmu postu
