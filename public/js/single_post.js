@@ -1,7 +1,14 @@
 'use strict';
 console.log('front.js file was loaded');
 
-const postId = 5;
+// get postId from query search
+const postId = new URLSearchParams(window.location.search).get('postId');
+
+// const postId = 4
+if (!postId) {
+  alert('nera poste id');
+}
+
 const postUrl = 'http://localhost:3000/api/posts';
 const onePosteCommentUrl = 'http://localhost:3000/api/comments/post';
 
@@ -72,7 +79,7 @@ function runderComments(comentaruObj) {
     h6El.textContent = comObj.created_at;
     const pEl = document.createElement('p');
     pEl.classList.add('card-text');
-    pEl.textContent = comObj.body;
+    pEl.textContent = comObj.content;
     bodyDivEl.append(h5El, h6El, pEl);
     divEl.append(bodyDivEl);
     liEl.append(divEl);

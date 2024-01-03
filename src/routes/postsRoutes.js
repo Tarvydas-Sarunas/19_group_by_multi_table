@@ -24,7 +24,12 @@ postsRouter.get('/:id', async (req, res) => {
 
 // get /api/posts - grazins visus postus
 postsRouter.get('/', async (req, res) => {
-  const sql = 'SELECT * FROM `posts` WHERE 1';
+  // const sql = 'SELECT * FROM `posts`';
+  const sql = `SELECT posts.post_id, posts.title, posts.author, posts.date, posts.body, COUNT(post_comments.comm_id) AS comment_count
+  FROM posts
+  LEFT JOIN post_comments
+  ON posts.post_id=post_comments.post_id
+  GROUP BY posts.title`;
   const [rows, error] = await dbQueryWithData(sql);
   if (error) {
     res.status(500).json({ error: 'Internal server error' });
