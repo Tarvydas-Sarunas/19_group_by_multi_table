@@ -11,6 +11,7 @@ const postsList = document.getElementById('posts-list');
   console.log('error ===', error);
   console.log('postArr ===', postArr);
 
+  postsList.innerHTML = '';
   const elsArr = postArr.map(makeSinglePost);
   console.log('elsArr ===', elsArr);
   postsList.append(...elsArr);
@@ -20,7 +21,13 @@ const postsList = document.getElementById('posts-list');
 function makeSinglePost(pObj) {
   const liEl = document.createElement('li');
   liEl.className = 'col-md-6 col-lg-4';
-  liEl.innerHTML = `
+
+  const cardFooter = `
+  <div class="card-footer">
+  <p class="lead mb-0">Comments: ${pObj.comment_count}</p>
+</div>`;
+
+  let postBody = `
   <div class="card mb-3">
   <div class="card-body">
     <h5 class="card-title">${pObj.title}</h5>
@@ -30,11 +37,11 @@ function makeSinglePost(pObj) {
       pObj.post_id
     }" class="btn btn-primary">Read more</a>
   </div>
-  <div class="card-footer">
-    <p class="lead mb-0">Comments: 6</p>
-  </div>
+  ${pObj.comment_count > 0 ? cardFooter : ''}
 </div>
 `;
+
+  liEl.innerHTML = postBody;
   return liEl;
 }
 

@@ -29,7 +29,8 @@ postsRouter.get('/', async (req, res) => {
   FROM posts
   LEFT JOIN post_comments
   ON posts.post_id=post_comments.post_id
-  GROUP BY posts.title`;
+  GROUP BY posts.title
+  ORDER BY posts.post_id`;
   const [rows, error] = await dbQueryWithData(sql);
   if (error) {
     res.status(500).json({ error: 'Internal server error' });
